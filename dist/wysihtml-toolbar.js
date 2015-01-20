@@ -7028,7 +7028,7 @@ wysihtml5.dom.parse = function(elementOrHtml_current, config_current) {
       return function(attributeValue) {
         return mapping[String(attributeValue).toLowerCase()];
       };
-    })(),
+    })()
   };
 
   // ------------ class converter (converts an html attribute to a class name) ------------ \\
