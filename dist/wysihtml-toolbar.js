@@ -5812,6 +5812,7 @@ wysihtml5.dom.copyAttributes = function(attributesToCopy) {
         }
 
         if (properties.query) {
+	        node.matches = Element.prototype.matches;
           if (!node.matches(properties.query)) {
             return false;
           }
@@ -11537,12 +11538,13 @@ wysihtml5.Commands = Base.extend(
       } else {
 
         while(content.firstChild) {
-          
+	        content.firstChild.matches = Element.prototype.matches;
           if (content.firstChild.nodeType == 1 && content.firstChild.matches(BLOCK_ELEMENTS)) {
             
             if (options) {
               // Escape(split) block formatting at caret
               applyOptionsToElement(content.firstChild, options, composer);
+	            content.firstChild.matches = Element.prototype.matches;
               if (content.firstChild.matches(UNNESTABLE_BLOCK_ELEMENTS)) {
                 unwrapBlocksFromContent(content.firstChild);
               }
@@ -11565,11 +11567,15 @@ wysihtml5.Commands = Base.extend(
             if (options) {
               // Wrap subsequent non-block nodes inside new block element
               wrapper = applyOptionsToElement(null, defaultOptions, composer);
+	            content.firstChild.matches = Element.prototype.matches;
               while(content.firstChild && (content.firstChild.nodeType !== 1 || !content.firstChild.matches(BLOCK_ELEMENTS))) {
+	              wrapper.matches = Element.prototype.matches;
                 if (content.firstChild.nodeType == 1 && wrapper.matches(UNNESTABLE_BLOCK_ELEMENTS)) {
                   unwrapBlocksFromContent(content.firstChild);
                 }
                 wrapper.appendChild(content.firstChild);
+	              if (content.firstChild)
+	                content.firstChild.matches = Element.prototype.matches;
               }
               fragment.appendChild(wrapper);
             
